@@ -55,7 +55,7 @@ class Color:
 		return self._hue + (65536.0*float(degrees)/360.0)
 
 	def rotateHue(self, degrees):
-		self.hue = self.getRotatedHue(degrees=degrees)
+		self.hue = self._getRotatedHue(degrees=degrees)
 
 	def getRotatedColor(self, degrees):
 		return Color(hue=self._getRotatedHue(degrees), sat=self.sat, bri=self.bri)

@@ -19,9 +19,6 @@ import random
 
 DEBUG = False
 
-defaultIP = "192.168.1.14"
-defaultUsername = "GDJxO2fgnZ1Emk-hLGdGAQsAQ2ymbM7p8ICJWmtF"
-
 #map the top level hue api strings to variables
 
 
@@ -103,23 +100,27 @@ class Hue:
 
 
 	#set a *single* light to the color provided
-	def setState(self, lightNumber, color, on=True):
+	def setState(self, lightNumber, color, on=True, transitiontime=None):
 		if isinstance(lightNumber, list):
 			raise ValueError("setState can only handle a single light not a list of them")
 		d = color.getDict()
 		d['on'] = on
-		return self.setStateWithDict(lightNumber, d)
+		return self.setStateWithDict(lightNumber=lightNumber, stateDict=d, transitiontime=transitiontime)
 
 
 	#set a *singe* light to the parameters pass in in stateDict
-	def setStateWithDict(self, lightNumber, stateDict):
+	def setStateWithDict(self, lightNumber, stateDict, transitiontime=None):
+		if DEBUG: print(stateDict)
+
 		if isinstance(lightNumber, list):
 			raise ValueError("setStateWithDict can only handle a single light not a list of them")
 		stateDict.pop('mode', None)
 		stateDict.pop('colormode', None)
 		stateDict.pop('reachable', None)
 		stateDict.pop('alert', None)
-		if DEBUG: print(self.bridge.lights[str(lightNumber)]())
+		if transitiontime:
+			stateDict['transitiontime'] = transitiontime
+		#if DEBUG: print(self.bridge.lights[str(lightNumber)]())
 		if DEBUG: print(stateDict)
 		return self.bridge.lights[str(lightNumber)].state(**stateDict)
 
@@ -182,7 +183,7 @@ class Hue:
 			time.sleep(delay)
 
 		for (lightNum, state) in initialState.items():
-			self.setStateWithDict(lightNum, state)
+			self.setStateWithDict(lightNumber=lightNum, stateDict=state)
 
 
 	#returns (index, name) for each group/room
@@ -214,7 +215,7 @@ class Hue:
 
 
 	#set one or many lights to one or many colors
-	def setLights(self, lights, colors):
+	def setLights(self, lights, colors, transitiontime=None):
 		if not isinstance(colors, list):
 			colors = [colors]
 		totalColors = len(colors)
@@ -222,12 +223,12 @@ class Hue:
 		if not isinstance(lights, list):
 			lights = [lights]
 		for lightNumber in lights:
-			self.setState(lightNumber, colors[index])
+			self.setState(lightNumber=lightNumber, color=colors[index], transitiontime=transitiontime)
 			index = (index+1)%totalColors
 
-	def setScene(self, lights, scene, offset=0):
+	def setScene(self, lights, scene, offset=0, transitiontime=None):
 		colors = scene.colors[offset:] + scene.colors[:offset] #rotate the scenes colors by the offset
-		return self.setLights(lights, colors)
+		return self.setLights(lights=lights, colors=colors, transitiontime=transitiontime)
 
 
 	def stopIConnectHueAnimation(self):
