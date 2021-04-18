@@ -47,12 +47,11 @@ class Encoder(object):
             self.pos += 1
         elif state == 2 or state == 4 or state == 11 or state == 13:
             self.pos -= 1
-        '''
         elif state == 3 or state == 12:
             self.pos += 2
         elif state == 6 or state == 9:
             self.pos -= 2
-        '''
+        print(self.pos, state)
 
 
     """
