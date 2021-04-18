@@ -228,7 +228,8 @@ class Hue:
 
 	def setScene(self, lights, scene, offset=0, transitiontime=None):
 		colors = scene.colors[offset:] + scene.colors[:offset] #rotate the scenes colors by the offset
-		return self.setLights(lights=lights, colors=colors, transitiontime=transitiontime)
+		self.setLights(lights=lights, colors=colors, transitiontime=transitiontime)
+		return scene
 
 
 	def stopIConnectHueAnimation(self):

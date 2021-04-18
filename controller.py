@@ -50,7 +50,7 @@ class Controller:
 
 
 	def incrementScene(self, amount=1):
-		self.sceneIndex = (self.sceneIndex + amount) % len(scenes)
+		self.sceneIndex = (self.sceneIndex + amount) % len(self.scenes)
 		return self.hue.setScene(self.lightGroups[self.selectedKey], self.scenes[self.sceneIndex])
 
 

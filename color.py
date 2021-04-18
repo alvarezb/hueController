@@ -2,15 +2,18 @@ import numpy as np
 
 class Color:
 
-	def __init__(self, hue, sat, bri):
+	def __init__(self, hue, sat, bri=None):
 		if sat<0 or sat>255:
 			raise ValueError("Saturation parameter is out of range: %s"%sat)
-		if bri<0 or bri>255:
+		if bri != None and (bri<0 or bri>255):
 			raise ValueError("Brightness parameter is out of range: %s"%bri)
 
 		self._hue = np.uint16(hue)
 		self._sat = np.uint8(sat)
-		self._bri = np.uint8(bri)
+		if bri is None:
+			self._bri = None
+		else:
+			self._bri = np.uint8(bri)
 
 	@property
 	def hue(self):
@@ -29,8 +32,11 @@ class Color:
 		self._sat = np.uint8(sat)
 
 	@property
-	def bri(self): 
-		return int(self._bri if self._bri < 255 else 254)
+	def bri(self):
+		if self._bri is None:
+			return None
+		else:
+			return int(self._bri if self._bri < 255 else 254)
 	@bri.setter 
 	def bri(self, bri):
 		if bri<0 or bri>255:
@@ -44,8 +50,10 @@ class Color:
 
 	def getDict(self, mode="HSB"):
 		if mode == "HSB":
-			#handle the fact that hue and brightness cap at 254, not 255
-			return {'bri': int(self._bri) if self._bri < 255 else 254, 'hue': int(self._hue), 'sat': int(self._sat) if self._sat < 255 else 254}
+			if self.bri is None:
+				return {'hue': self.hue, 'sat': self.sat}
+			else:
+				return {'bri': self.bri, 'hue': self.hue, 'sat': self.sat}
 		elif mode == "XY":
 			raise ValueError("XY is not yet implemented")
 		else:
@@ -53,6 +61,10 @@ class Color:
 
 	def _getRotatedHue(self, degrees):
 		return self._hue + (65536.0*float(degrees)/360.0)
+
+	def withoutBrightness(self):
+		#return a new color object that does not have the brightness value set
+		return Color(self.hue, self.sat)
 
 	def rotateHue(self, degrees):
 		self.hue = self._getRotatedHue(degrees=degrees)

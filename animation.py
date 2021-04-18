@@ -1,5 +1,5 @@
 from scene import Scene
-import threading, sched, time
+import threading, time
 
 class Animation:
 	def __init__(self, lights, scenes, hue, delay=5, transitiontime=2, lightIndexOffset=0, sceneIndexOffset=0):
@@ -17,18 +17,31 @@ class Animation:
 		self.thread = None
 		self.terminate = False
 
+	def start(self, delay=0, sceneIndex=None):
+		return self.animate(delay, sceneIndex)
+
 	def animate(self, delay=0, sceneIndex=None):
 		#print("starting animate")
 		if not sceneIndex:
 			sceneIndex = self.sceneIndexOffset
-		time.sleep(delay)
-		if self.terminate:
-			return
+
+		nextTime = time.time()+delay #set when to execute the next transition
+		while time.time() < nextTime:	
+			if self.terminate:
+				return
+			time.sleep(0.1)
+
 		self.hue.setScene(lights=self.lights, scene=self.scenes[sceneIndex % len(self.scenes)], offset=self.lightIndexOffset, transitiontime=self.transitiontime)
 		self.thread = threading.Thread(target=self.animate, kwargs={'delay':self.delay, 'sceneIndex': sceneIndex+1})
 		#print("ending animate")
 		self.thread.start()
 
+	def stop(self):
+		return self.stopAnimating()
+
 	def stopAnimating(self):
 		#try to stop the task saved in scheduledTask
 		self.terminate = True
+
+	def __del__(self):
+		self.stopAnimating()
