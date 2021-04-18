@@ -8,7 +8,7 @@ import os
 rpi = (os.uname().nodename == 'raspberrypi')
 if rpi:
 	from encoder import Encoder
-	brightnessEncoder = Encoder(5, 17)
+	brightnessEncoder = Encoder(4, 17)
 	sceneEncoder = Encoder(18, 23)
 
 
