@@ -53,7 +53,6 @@ pastelsAnimation = Animation(
 	)
 
 if rpi:
-	for i in range(100):
-		print(brightnessEncoder.read())
-		print(sceneEncoder.read())
-		time.sleep(.1)
+	for i in range(1000):
+		print(brightnessEncoder.read(), sceneEncoder.read())
+		time.sleep(.01)
