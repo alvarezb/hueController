@@ -51,7 +51,7 @@ class Encoder(object):
             self.pos += 2
         elif state == 6 or state == 9:
             self.pos -= 2
-        print(self.pos, state)
+        #print(self.pos, state)
 
 
     """

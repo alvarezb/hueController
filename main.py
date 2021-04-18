@@ -53,6 +53,23 @@ pastelsAnimation = Animation(
 	)
 
 if rpi:
+	brightnessCountPrior = 0
+	sceneCountPrior = 0
+	try:
+		while True:
+			brightnessCountCurrent = brightnessEncoder.read()
+			if brightnessCountCurrent - brightnessCountPrior >= 8:
+				#we should incremement brightness
+				c.incrementBrightness()
+				brightnessCountPrior = brightnessCountCurrent
+			elif brightnessCountCurrent - brightnessCountPrior <= -8:
+				c.decrementBrightness()
+				brightnessCountPrior = brightnessCountCurrent
+
+	except:
+		pass
+	'''
 	for i in range(10000):
 		print(brightnessEncoder.read(), sceneEncoder.read())
 		time.sleep(.001)
+	'''
