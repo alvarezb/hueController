@@ -99,4 +99,7 @@ purple = blue.getRotatedColor(30)
 magenta = purple.getRotatedColor(30)
 crimson = magenta.getRotatedColor(30)
 
-white = Color(hue=0, sat=0, bri = 255)
+white = Color(hue=0, sat=0, bri=255)
+flourescentWhite = Color(hue=7000, sat=80, bri=255)
+warmWhite = Color(hue=7000, sat=170, bri=255)
+white2700k = Color(hue=7000, sat=170, bri=255)

@@ -36,4 +36,4 @@ pastels = Scene(name="Pastels", colors=[
 	color.Color(hue=4551,  sat=100, bri=255),
 	color.Color(hue=11650, sat=50, bri=255),
 	])
-warm = Scene(name="Warm", colors=[color.Color(hue=10000, sat=45, bri=255)])
+warm = Scene(name="Warm", colors=[color.warmWhite])

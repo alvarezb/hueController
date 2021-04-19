@@ -2,7 +2,6 @@ from hue import Hue
 import color
 from scene import Scene
 from animation import Animation
-from encoder import Encoder
 
 
 class Controller:
@@ -72,6 +71,8 @@ class Controller:
 
 	#only call this on a raspberry pi, otherwise it wont work
 	def monitorEncoders(self, brightnessA, brightnessB, sceneA, sceneB, groupA, groupB):
+		from encoder import Encoder
+		
 		brightnessEncoder = Encoder(brightnessA, brightnessB)
 		sceneEncoder = Encoder(sceneA, sceneB)
 		groupEncoder = Encoder(groupA, groupB)
