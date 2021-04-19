@@ -48,13 +48,9 @@ pastelsAnimation = Animation(
 	delay=2
 	)
 
-if rpi:
-	try:
-		c.monitorEncoders(brightnessA=4, brightnessB=17, sceneA=18, sceneB=23, groupA=12, groupB=16)
-	except:
-		pass
-	'''
-	for i in range(10000):
-		print(brightnessEncoder.read(), sceneEncoder.read())
-		time.sleep(.001)
-	'''
+def runEncoder():
+	if rpi:
+		try:
+			c.monitorEncoders(brightnessA=4, brightnessB=17, sceneA=18, sceneB=23, groupA=12, groupB=16)
+		except:
+			pass

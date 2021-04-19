@@ -76,9 +76,9 @@ class Controller:
 		sceneEncoder = Encoder(sceneA, sceneB)
 		groupEncoder = Encoder(groupA, groupB)
 
-		brightnessCountPrior = 0
-		sceneCountPrior = 0
-		groupCountPrior = 0
+		brightnessCountPrior = brightnessEncoder.read()
+		sceneCountPrior = sceneEncoder.read()
+		groupCountPrior = groupEncoder.read()
 		try:
 			while True:
 				brightnessCountCurrent = brightnessEncoder.read()
