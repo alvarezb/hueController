@@ -66,6 +66,16 @@ if rpi:
 				c.decrementBrightness()
 				brightnessCountPrior = brightnessCountCurrent
 
+
+			sceneCountCurrent = sceneEncoder.read()
+			if sceneCountCurrent - sceneCountPrior >= 8:
+				#we should incremement brightness
+				c.incrementScene()
+				sceneCountPrior = sceneCountCurrent
+			elif sceneCountCurrent - sceneCountPrior <= -8:
+				c.decrementScene()
+				sceneCountPrior = sceneCountCurrent
+
 	except:
 		pass
 	'''
