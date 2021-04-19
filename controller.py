@@ -84,31 +84,38 @@ class Controller:
 				brightnessCountCurrent = brightnessEncoder.read()
 				if brightnessCountCurrent - brightnessCountPrior >= 8:
 					#we should incremement brightness
+					print("incrementBrightness")
 					c.incrementBrightness()
 					brightnessCountPrior = brightnessCountCurrent
 				elif brightnessCountCurrent - brightnessCountPrior <= -8:
+					print("decrementBrightness")
 					c.decrementBrightness()
 					brightnessCountPrior = brightnessCountCurrent
 
 				sceneCountCurrent = sceneEncoder.read()
 				if sceneCountCurrent - sceneCountPrior >= 8:
 					#we should incremement brightness
+					print("incrementScene")
 					c.incrementScene()
 					sceneCountPrior = sceneCountCurrent
 				elif sceneCountCurrent - sceneCountPrior <= -8:
+					print("decrementScene")
 					c.decrementScene()
 					sceneCountPrior = sceneCountCurrent
 
 				groupCountCurrent = groupEncoder.read()
 				if groupCountCurrent - groupCountPrior >= 8:
 					#we should incremement brightness
+					print("incrementGroup")
 					c.incrementGroup()
 					groupCountPrior = groupCountCurrent
 				elif groupCountCurrent - groupCountPrior <= -8:
+					print("decrementGroup")
 					c.decrementGroup()
 					groupCountPrior = groupCountCurrent
 
-		except:
+		except Exception as e:
+			print(e)
 			pass
 
 
