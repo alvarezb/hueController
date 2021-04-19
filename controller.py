@@ -2,6 +2,7 @@ from hue import Hue
 import color
 from scene import Scene
 from animation import Animation
+from encoder import Encoder
 
 
 class Controller:
@@ -68,3 +69,47 @@ class Controller:
 	def turnAllOff(self):
 		for (name, lightNumbers) in self.lightGroups.items():
 			self.hue.setBrightness(lightNumbers, 0)
+
+	#only call this on a raspberry pi, otherwise it wont work
+	def monitorEncoders(self, brightnessA, brightnessB, sceneA, sceneB, groupA, groupB):
+		brightnessEncoder = Encoder(brightnessA, brightnessB)
+		sceneEncoder = Encoder(sceneA, sceneB)
+		groupEncoder = Encoder(groupA, groupB)
+
+		brightnessCountPrior = 0
+		sceneCountPrior = 0
+		groupCountPrior = 0
+		try:
+			while True:
+				brightnessCountCurrent = brightnessEncoder.read()
+				if brightnessCountCurrent - brightnessCountPrior >= 8:
+					#we should incremement brightness
+					c.incrementBrightness()
+					brightnessCountPrior = brightnessCountCurrent
+				elif brightnessCountCurrent - brightnessCountPrior <= -8:
+					c.decrementBrightness()
+					brightnessCountPrior = brightnessCountCurrent
+
+				sceneCountCurrent = sceneEncoder.read()
+				if sceneCountCurrent - sceneCountPrior >= 8:
+					#we should incremement brightness
+					c.incrementScene()
+					sceneCountPrior = sceneCountCurrent
+				elif sceneCountCurrent - sceneCountPrior <= -8:
+					c.decrementScene()
+					sceneCountPrior = sceneCountCurrent
+
+				groupCountCurrent = groupEncoder.read()
+				if groupCountCurrent - groupCountPrior >= 8:
+					#we should incremement brightness
+					c.incrementGroup()
+					groupCountPrior = groupCountCurrent
+				elif groupCountCurrent - groupCountPrior <= -8:
+					c.decrementGroup()
+					groupCountPrior = groupCountCurrent
+
+		except:
+			pass
+
+
+

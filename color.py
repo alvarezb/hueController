@@ -87,19 +87,14 @@ class Color:
 
 #static colors
 red = Color(hue=0, sat=255, bri=255)
-
 orange = red.getRotatedColor(30)
 yellow = orange.getRotatedColor(30)
 lime = yellow.getRotatedColor(30)
-
 green = Color(hue=25500, sat=255, bri=255)
-
 ocean = green.getRotatedColor(30)
 cyan = ocean.getRotatedColor(30)
 sky = cyan.getRotatedColor(30)
-
 blue = Color(hue=46920, sat=255, bri=255)
-
 purple = blue.getRotatedColor(30)
 magenta = purple.getRotatedColor(30)
 crimson = magenta.getRotatedColor(30)

@@ -6,10 +6,6 @@ import color
 import time
 import os
 rpi = (os.uname().nodename == 'raspberrypi')
-if rpi:
-	from encoder import Encoder
-	brightnessEncoder = Encoder(4, 17)
-	sceneEncoder = Encoder(18, 23)
 
 
 username = "GDJxO2fgnZ1Emk-hLGdGAQsAQ2ymbM7p8ICJWmtF"
@@ -53,29 +49,8 @@ pastelsAnimation = Animation(
 	)
 
 if rpi:
-	brightnessCountPrior = 0
-	sceneCountPrior = 0
 	try:
-		while True:
-			brightnessCountCurrent = brightnessEncoder.read()
-			if brightnessCountCurrent - brightnessCountPrior >= 8:
-				#we should incremement brightness
-				c.incrementBrightness()
-				brightnessCountPrior = brightnessCountCurrent
-			elif brightnessCountCurrent - brightnessCountPrior <= -8:
-				c.decrementBrightness()
-				brightnessCountPrior = brightnessCountCurrent
-
-
-			sceneCountCurrent = sceneEncoder.read()
-			if sceneCountCurrent - sceneCountPrior >= 8:
-				#we should incremement brightness
-				c.incrementScene()
-				sceneCountPrior = sceneCountCurrent
-			elif sceneCountCurrent - sceneCountPrior <= -8:
-				c.decrementScene()
-				sceneCountPrior = sceneCountCurrent
-
+		c.monitorEncoders(brightnessA=4, brightnessB=17, sceneA=18, sceneB=23, groupA=12, groupB=16):
 	except:
 		pass
 	'''
