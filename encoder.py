@@ -30,11 +30,8 @@ class Encoder(object):
 		GPIO.add_event_detect(A, GPIO.BOTH, callback=self.__update)
 		GPIO.add_event_detect(B, GPIO.BOTH, callback=self.__update)
 		'''
-		GPIO.add_event_detect(self.A, GPIO.RISING, callback=self._aRising)
-		GPIO.add_event_detect(self.A, GPIO.FALLING, callback=self._aFalling)
-
-		GPIO.add_event_detect(self.B, GPIO.RISING, callback=self._bRising)
-		GPIO.add_event_detect(self.B, GPIO.FALLING, callback=self._bFalling)
+		GPIO.add_event_detect(self.A, GPIO.BOTH, callback=self._aCallback)
+		GPIO.add_event_detect(self.B, GPIO.BOTH, callback=self._bCallback)
 
 	"""
 	update() calling every time when value on A or B pins changes.
@@ -65,29 +62,29 @@ class Encoder(object):
 		"""
 	'''
 
-	def _aRising(self, channel):
-		if GPIO.input(self.B):
-			self.pos += 1
-		else:
-			self.pos -= 1
-
-	def _aFalling(self, channel):
-		if GPIO.input(self.B):
-			self.pos -= 1
-		else:
-			self.pos += 1
-
-	def _bRising(self, channel):
+	def _aCallback(self, channel):
 		if GPIO.input(self.A):
-			self.pos -= 1
+			if GPIO.input(self.B):
+				self.pos += 1
+			else:
+				self.pos -= 1
 		else:
-			self.pos += 1
+			if GPIO.input(self.B):
+				self.pos -= 1
+			else:
+				self.pos += 1
 
-	def _bFalling(self, channel):
-		if GPIO.input(self.A):
-			self.pos += 1
+	def _bCallback(self, channel):
+		if GPIO.input(self.B):
+			if GPIO.input(self.A):
+				self.pos -= 1
+			else:
+				self.pos += 1
 		else:
-			self.pos -= 1
+			if GPIO.input(self.A):
+				self.pos += 1
+			else:
+				self.pos -= 1
 
 	"""
 	read() simply returns the current position of the rotary encoder.
