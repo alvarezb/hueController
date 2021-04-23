@@ -87,33 +87,37 @@ class Controller:
 		brightnessPrior = brightnessEncoder.count
 		scenePrior = sceneEncoder.count
 		groupPrior = groupEncoder.count
+
 		while True:
-			if brightnessPrior - brightnessEncoder.count >= 2:
+			brightnessCount = brightnessEncoder.count
+			if brightnessPrior - brightnessCount >= 2:
 				self.decrementBrightness()
-				brightnessPrior = brightnessEncoder.count
-				print("decrementBrightness")
-			elif brightnessPrior - brightnessEncoder.count <= -2:
+				brightnessPrior = brightnessCount
+				print("decrementBrightness", brightnessPrior, brightnessCount)
+			elif brightnessPrior - brightnessCount <= -2:
 				self.incrementBrightness()
-				brightnessPrior = brightnessEncoder.count
-				print("incrementBrightness")
+				brightnessPrior = brightnessCount
+				print("incrementBrightness", brightnessPrior, brightnessCount)
 
-			if scenePrior - sceneEncoder.count >= 4:
+			sceneCount = sceneEncoder.count
+			if scenePrior - sceneCount >= 4:
 				#self.decrementScene()
-				scenePrior = sceneEncoder.count 
-				print("decrementScene", scenePrior, sceneEncoder.count)
-			elif scenePrior - sceneEncoder.count <= -4:
+				scenePrior = sceneCount 
+				print("decrementScene", scenePrior, sceneCount)
+			elif scenePrior - sceneCount <= -4:
 				#self.incrementScene()
-				scenePrior = sceneEncoder.count
-				print("incrementScene", scenePrior, sceneEncoder.count)
+				scenePrior = sceneCount
+				print("incrementScene", scenePrior, sceneCount)
 
-			if groupPrior - groupEncoder.count >= 6:
+			groupCount = groupEncoder.count
+			if groupPrior - groupCount >= 6:
 				self.decrementGroup()
-				groupPrior = groupEncoder.count 
-				print("decrementGroup")
-			elif groupPrior - groupEncoder.count <= -6:
+				groupPrior = groupCount 
+				print("decrementGroup", groupPrior, groupCount)
+			elif groupPrior - groupCount <= -6:
 				self.incrementGroup()
-				groupPrior = groupEncoder.count
-				print("incrementGroup")
+				groupPrior = groupCount
+				print("incrementGroup", groupPrior, groupCount)
 
 
 
