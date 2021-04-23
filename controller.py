@@ -91,11 +91,11 @@ class Controller:
 		while True:
 			brightnessCount = brightnessEncoder.count
 			if brightnessPrior - brightnessCount >= 2:
-				self.decrementBrightness()
+				#self.decrementBrightness()
 				brightnessPrior = brightnessCount
 				print("decrementBrightness", brightnessPrior, brightnessCount)
 			elif brightnessPrior - brightnessCount <= -2:
-				self.incrementBrightness()
+				#self.incrementBrightness()
 				brightnessPrior = brightnessCount
 				print("incrementBrightness", brightnessPrior, brightnessCount)
 
@@ -111,11 +111,11 @@ class Controller:
 
 			groupCount = groupEncoder.count
 			if groupPrior - groupCount >= 6:
-				self.decrementGroup()
+				#self.decrementGroup()
 				groupPrior = groupCount 
 				print("decrementGroup", groupPrior, groupCount)
 			elif groupPrior - groupCount <= -6:
-				self.incrementGroup()
+				#self.incrementGroup()
 				groupPrior = groupCount
 				print("incrementGroup", groupPrior, groupCount)
 
