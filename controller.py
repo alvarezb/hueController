@@ -98,11 +98,11 @@ class Controller:
 				print("incrementBrightness")
 
 			if scenePrior - sceneEncoder.count >= 4:
-				self.decrementScene()
+				#self.decrementScene()
 				scenePrior = sceneEncoder.count 
 				print("decrementScene", scenePrior, sceneEncoder.count)
 			elif scenePrior - sceneEncoder.count <= -4:
-				self.incrementScene()
+				#self.incrementScene()
 				scenePrior = sceneEncoder.count
 				print("incrementScene", scenePrior, sceneEncoder.count)
 
