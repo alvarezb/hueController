@@ -100,11 +100,11 @@ class Controller:
 			if scenePrior - sceneEncoder.count >= 4:
 				self.decrementScene()
 				scenePrior = sceneEncoder.count 
-				print("decrementScene")
+				print("decrementScene", scenePrior, sceneEncoder.count)
 			elif scenePrior - sceneEncoder.count <= -4:
 				self.incrementScene()
 				scenePrior = sceneEncoder.count
-				print("incrementScene")
+				print("incrementScene", scenePrior, sceneEncoder.count)
 
 			if groupPrior - groupEncoder.count >= 6:
 				self.decrementGroup()
