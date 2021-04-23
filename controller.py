@@ -79,34 +79,41 @@ class Controller:
 		sceneEncoder.begin()
 		groupEncoder = qwiic_twist.QwiicTwist(address=groupAddress)
 		groupEncoder.begin()
+
 		brightnessEncoder.set_color(230,255,255) #white-ish
-		groupEncoder.set_color(0,0,0) #no colors
 		sceneEncoder.set_color(0,0,255) #blue
+		groupEncoder.set_color(0,0,0) #no colors
 
 		brightnessPrior = brightnessEncoder.count
 		scenePrior = sceneEncoder.count
 		groupPrior = groupEncoder.count
 		while True:
-			if brightnessPrior - brightnessEncoder.count >= 4:
-				self.incrementBrightness()
-				brightnessPrior = brightnessEncoder.count 
-			elif brightnessPrior - brightnessEncoder.count <= -4:
+			if brightnessPrior - brightnessEncoder.count >= 2:
 				self.decrementBrightness()
 				brightnessPrior = brightnessEncoder.count
+				print("decrementBrightness")
+			elif brightnessPrior - brightnessEncoder.count <= -2:
+				self.incrementBrightness()
+				brightnessPrior = brightnessEncoder.count
+				print("incrementBrightness")
 
 			if scenePrior - sceneEncoder.count >= 4:
-				self.incrementScene()
-				scenePrior = sceneEncoder.count 
-			elif scenePrior - sceneEncoder.count <= -4:
 				self.decrementScene()
+				scenePrior = sceneEncoder.count 
+				print("decrementScene")
+			elif scenePrior - sceneEncoder.count <= -4:
+				self.incrementScene()
 				scenePrior = sceneEncoder.count
+				print("incrementScene")
 
-			if groupPrior - groupEncoder.count >= 4:
-				self.incrementGroup()
-				groupPrior = groupEncoder.count 
-			elif groupPrior - groupEncoder.count <= -4:
+			if groupPrior - groupEncoder.count >= 6:
 				self.decrementGroup()
+				groupPrior = groupEncoder.count 
+				print("decrementGroup")
+			elif groupPrior - groupEncoder.count <= -6:
+				self.incrementGroup()
 				groupPrior = groupEncoder.count
+				print("incrementGroup")
 
 
 
