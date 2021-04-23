@@ -70,54 +70,34 @@ class Controller:
 			self.hue.setBrightness(lightNumbers, 0)
 
 	#only call this on a raspberry pi, otherwise it wont work
-	def monitorEncoders(self, brightnessA, brightnessB, sceneA, sceneB, groupA, groupB):
-		from encoder import Encoder
-		
-		brightnessEncoder = Encoder(brightnessA, brightnessB)
-		sceneEncoder = Encoder(sceneA, sceneB)
-		groupEncoder = Encoder(groupA, groupB)
+	def monitorEncoders(self, brightnessAddress, sceneAddress, groupAddress):
+		#initialize everything
+		import qwiic_twist
+		brightnessEncoder = qwiic_twist.QwiicTwist(address=brightnessAddress)
+		brightnessEncoder.begin()
+		sceneEncoder = qwiic_twist.QwiicTwist(address=sceneAddress)
+		sceneEncoder.begin()
+		groupEncoder = qwiic_twist.QwiicTwist(address=groupAddress)
+		groupEncoder.begin()
+		brightnessEncoder.set_color(230,255,255) #white-ish
+		groupEncoder.set_color(0,0,0) #no colors
+		sceneEncoder.set_color(0,0,255) #blue
 
-		brightnessCountPrior = brightnessEncoder.read()
-		sceneCountPrior = sceneEncoder.read()
-		groupCountPrior = groupEncoder.read()
 		try:
+			brightnessPrior = brightnessEncoder.count
+			scenePrior = sceneEncoder.count
+			groupPrior = groupEncoder.count
 			while True:
-				brightnessCountCurrent = brightnessEncoder.read()
-				if brightnessCountCurrent - brightnessCountPrior >= 8:
-					#we should incremement brightness
-					print("incrementBrightness")
+				if brightnessPrior - brightnessEncoder.count >= 4:
 					self.incrementBrightness()
-					brightnessCountPrior = brightnessCountCurrent
-				elif brightnessCountCurrent - brightnessCountPrior <= -8:
-					print("decrementBrightness")
+					brightnessPrior = brightnessEncoder.count 
+				elif brightnessPrior - brightnessEncoder.count <= -4:
 					self.decrementBrightness()
-					brightnessCountPrior = brightnessCountCurrent
-
-				sceneCountCurrent = sceneEncoder.read()
-				if sceneCountCurrent - sceneCountPrior >= 8:
-					#we should incremement brightness
-					print("incrementScene")
-					self.incrementScene()
-					sceneCountPrior = sceneCountCurrent
-				elif sceneCountCurrent - sceneCountPrior <= -8:
-					print("decrementScene")
-					self.decrementScene()
-					sceneCountPrior = sceneCountCurrent
-
-				groupCountCurrent = groupEncoder.read()
-				if groupCountCurrent - groupCountPrior >= 8:
-					#we should incremement brightness
-					print("incrementGroup")
-					self.incrementGroup()
-					groupCountPrior = groupCountCurrent
-				elif groupCountCurrent - groupCountPrior <= -8:
-					print("decrementGroup")
-					self.decrementGroup()
-					groupCountPrior = groupCountCurrent
+					brightnessPrior = brightnessEncoder.count
 
 		except Exception as e:
 			print(e)
-			pass
+
 
 
 
