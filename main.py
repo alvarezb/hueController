@@ -50,9 +50,8 @@ pastelsAnimation = Animation(
 
 def runEncoder():
 	if rpi:
-		try:
+		#try:
 			#c.monitorEncoders(brightnessA=4, brightnessB=17, sceneA=18, sceneB=23, groupA=12, groupB=16)
-			c.monitorEncoders(brightnessAddress=0x40, sceneAddress=0x41, groupAddress=0x42)
-		except:
-			pass
-
+		c.monitorEncoders(brightnessAddress=0x40, sceneAddress=0x41, groupAddress=0x42)
+		#except:
+		#	pass

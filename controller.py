@@ -83,20 +83,31 @@ class Controller:
 		groupEncoder.set_color(0,0,0) #no colors
 		sceneEncoder.set_color(0,0,255) #blue
 
-		try:
-			brightnessPrior = brightnessEncoder.count
-			scenePrior = sceneEncoder.count
-			groupPrior = groupEncoder.count
-			while True:
-				if brightnessPrior - brightnessEncoder.count >= 4:
-					self.incrementBrightness()
-					brightnessPrior = brightnessEncoder.count 
-				elif brightnessPrior - brightnessEncoder.count <= -4:
-					self.decrementBrightness()
-					brightnessPrior = brightnessEncoder.count
+		brightnessPrior = brightnessEncoder.count
+		scenePrior = sceneEncoder.count
+		groupPrior = groupEncoder.count
+		while True:
+			if brightnessPrior - brightnessEncoder.count >= 4:
+				self.incrementBrightness()
+				brightnessPrior = brightnessEncoder.count 
+			elif brightnessPrior - brightnessEncoder.count <= -4:
+				self.decrementBrightness()
+				brightnessPrior = brightnessEncoder.count
 
-		except Exception as e:
-			print(e)
+			if scenePrior - sceneEncoder.count >= 4:
+				self.incrementScene()
+				scenePrior = sceneEncoder.count 
+			elif scenePrior - sceneEncoder.count <= -4:
+				self.decrementScene()
+				scenePrior = sceneEncoder.count
+
+			if groupPrior - groupEncoder.count >= 4:
+				self.incrementGroup()
+				groupPrior = groupEncoder.count 
+			elif groupPrior - groupEncoder.count <= -4:
+				self.decrementGroup()
+				groupPrior = groupEncoder.count
+
 
 
 
