@@ -89,33 +89,33 @@ class Controller:
 		groupPrior = groupEncoder.count
 
 		while True:
-			brightnessCount = brightnessEncoder.count & 0b0111111111111111 #sometimes the top bit flips, for unknown reasons
+			brightnessCount = brightnessEncoder.count & 0x00FF #sometimes the top byte has errors, for unknown reasons
 			if brightnessPrior - brightnessCount >= 2:
-				#self.decrementBrightness()
+				self.decrementBrightness()
 				brightnessPrior = brightnessCount
 				print("decrementBrightness", brightnessPrior, brightnessCount)
 			elif brightnessPrior - brightnessCount <= -2:
-				#self.incrementBrightness()
+				self.incrementBrightness()
 				brightnessPrior = brightnessCount
 				print("incrementBrightness", brightnessPrior, brightnessCount)
 
-			sceneCount = sceneEncoder.count & 0b0111111111111111
+			sceneCount = sceneEncoder.count & 0x00FF
 			if scenePrior - sceneCount >= 4:
-				#self.decrementScene()
+				self.decrementScene()
 				scenePrior = sceneCount 
 				print("decrementScene", scenePrior, sceneCount)
 			elif scenePrior - sceneCount <= -4:
-				#self.incrementScene()
+				self.incrementScene()
 				scenePrior = sceneCount
 				print("incrementScene", scenePrior, sceneCount)
 
-			groupCount = groupEncoder.count & 0b0111111111111111
+			groupCount = groupEncoder.count & 0x00FF
 			if groupPrior - groupCount >= 6:
-				#self.decrementGroup()
+				self.decrementGroup()
 				groupPrior = groupCount 
 				print("decrementGroup", groupPrior, groupCount)
 			elif groupPrior - groupCount <= -6:
-				#self.incrementGroup()
+				self.incrementGroup()
 				groupPrior = groupCount
 				print("incrementGroup", groupPrior, groupCount)
 
