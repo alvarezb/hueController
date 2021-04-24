@@ -73,6 +73,7 @@ class Controller:
 	def monitorEncoders(self, brightnessAddress, sceneAddress, groupAddress):
 		#initialize everything
 		import qwiic_twist
+		import time
 		brightnessEncoder = qwiic_twist.QwiicTwist(address=brightnessAddress)
 		brightnessEncoder.begin()
 		sceneEncoder = qwiic_twist.QwiicTwist(address=sceneAddress)
@@ -118,6 +119,8 @@ class Controller:
 				self.incrementGroup()
 				groupPrior = groupCount
 				print("incrementGroup", groupPrior, groupCount)
+
+			time.sleep(0.01)
 
 
 
