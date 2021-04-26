@@ -74,7 +74,7 @@ class Controller:
 		values = []
 		for i in range(count):
 			values.append(encoder.count)
-		if all(x==list[0] for x in list):
+		if all(x==values[0] for x in values):
 			return values[0]
 		else:
 			return self.getEncoderValue(encoder, count)
