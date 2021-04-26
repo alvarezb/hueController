@@ -69,6 +69,17 @@ class Controller:
 		for (name, lightNumbers) in self.lightGroups.items():
 			self.hue.setBrightness(lightNumbers, 0)
 
+
+	def getEncoderValue(self, encoder, count=5):
+		values = []
+		for i in range(count):
+			values.append(encoder.count)
+		if all(x==list[0] for x in list):
+			return values[0]
+		else:
+			return self.getEncoderValue(encoder, count)
+
+
 	#only call this on a raspberry pi, otherwise it wont work
 	def monitorEncoders(self, brightnessAddress, sceneAddress, groupAddress):
 		#initialize everything
@@ -81,16 +92,27 @@ class Controller:
 		groupEncoder = qwiic_twist.QwiicTwist(address=groupAddress)
 		groupEncoder.begin()
 
-		brightnessEncoder.set_color(230,255,255) #white-ish
-		sceneEncoder.set_color(0,0,255) #blue
-		groupEncoder.set_color(0,0,0) #no colors
+		brightnessEncoder.set_color(50,75,75) #white-ish
+		sceneEncoder.set_color(0,0,50) #blue
+		groupEncoder.set_color(0,50,0) #no colors
 
 		brightnessPrior = brightnessEncoder.count
 		scenePrior = sceneEncoder.count
 		groupPrior = groupEncoder.count
 
+		def getEncoderValue(self, encoder, count=5):
+			values = []
+			for i in range(count):
+				values.append(encoder.count)
+			if all(x==list[0] for x in list):
+				return values[0]
+			else:
+				return self.getEncoderValue(encoder, count)
+
+
 		while True:
-			brightnessCount = brightnessEncoder.count & 0x00FF #sometimes the top byte has errors, for unknown reasons
+			#brightnessCount = brightnessEncoder.count & 0x00FF #sometimes the top byte has errors, for unknown reasons
+			brightnessCount = self.getEncoderValue(brightnessEncoder)
 			if brightnessPrior - brightnessCount >= 2:
 				self.decrementBrightness()
 				brightnessPrior = brightnessCount
@@ -100,7 +122,8 @@ class Controller:
 				brightnessPrior = brightnessCount
 				print("incrementBrightness", brightnessPrior, brightnessCount)
 
-			sceneCount = sceneEncoder.count & 0x00FF
+			#sceneCount = sceneEncoder.count & 0x00FF
+			sceneCount = self.getEncoderValue(sceneEncoder)
 			if scenePrior - sceneCount >= 4:
 				self.decrementScene()
 				scenePrior = sceneCount 
@@ -110,7 +133,8 @@ class Controller:
 				scenePrior = sceneCount
 				print("incrementScene", scenePrior, sceneCount)
 
-			groupCount = groupEncoder.count & 0x00FF
+			#groupCount = groupEncoder.count & 0x00FF
+			groupCount = self.getEncoderValue(groupEncoder)
 			if groupPrior - groupCount >= 6:
 				self.decrementGroup()
 				groupPrior = groupCount 
@@ -120,7 +144,7 @@ class Controller:
 				groupPrior = groupCount
 				print("incrementGroup", groupPrior, groupCount)
 
-			time.sleep(0.01)
+			time.sleep(0.1)
 
 
 
